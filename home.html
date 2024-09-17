@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ฟอร์มใบส่งของ</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">ใบส่งของ</h1>
+
+        <?php
+        // Check if the form is submitted
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Retrieve form data
+            $bookNumber = $_POST['book_number'];
+            $invoiceNumber = $_POST['invoice_number'];
+            $date = $_POST['date'];
+            $sellerName = $_POST['seller_name'];
+            $sellerAddress = $_POST['seller_address'];
+            $customerName = $_POST['customer_name'];
+            $items = $_POST['item_description'];
+            $quantities = $_POST['item_quantity'];
+            $units = $_POST['item_unit'];
+            $prices = $_POST['item_price'];
+            $totals = $_POST['item_total'];
+            $totalAmount = $_POST['total_amount'];
+            $receiverName = $_POST['receiver_name'];
+            $senderName = $_POST['sender_name'];
+
+            // Display the generated invoice
+            echo "<h1>ใบส่งของ</h1>";
+            echo "<p>เล่มที่: $bookNumber</p>";
+            echo "<p>เลขที่: $invoiceNumber</p>";
+            echo "<p>วันที่: $date</p>";
+            echo "<p>ผู้ขาย: $sellerName</p>";
+            echo "<p>ที่อยู่: $sellerAddress</p>";
+            echo "<p>ชื่อลูกค้า: $customerName</p>";
+
+            echo "<h2>รายละเอียดสินค้า</h2>";
+            echo "<table class='table table-bordered'>";
+            echo "<tr><th>ลำดับที่</th><th>รายการ</th><th>จำนวน</th><th>หน่วย</th><th>ราคา/หน่วย</th><th>รวมเงิน</th></tr>";
+            foreach ($items as $index => $item) {
+                echo "<tr>";
+                echo "<td>" . ($index + 1) . "</td>";
+                echo "<td>$item</td>";
+                echo "<td>{$quantities[$index]}</td>";
+                echo "<td>{$units[$index]}</td>";
+                echo "<td>{$prices[$index]}</td>";
+                echo "<td>{$totals[$index]}</td>";
+                echo "</tr>";
+            }
+            echo "</table>";
+            echo "<p>รวมเป็นเงิน: $totalAmount</p>";
+            echo "<p>ลงชื่อผู้รับของ: $receiverName</p>";
+            echo "<p>ลงชื่อผู้ส่งของ: $senderName</p>";
+        } else {
+        ?>
+
+        <form action="" method="post">
+            <div class="row mb-3">
+                <!-- เลขที่, เล่มที่ -->
+                <div class="col-md-6">
+                    <label for="book_number" class="form-label">เล่มที่:</label>
+                    <input type="text" class="form-control" id="book_number" name="book_number" placeholder="กรอกเล่มที่">
+                </div>
+                <div class="col-md-6">
+                    <label for="invoice_number" class="form-label">เลขที่:</label>
+                    <input type="text" class="form-control" id="invoice_number" name="invoice_number" placeholder="กรอกเลขที่">
+                </div>
+            </div>
+
+            <!-- วันที่ -->
+            <div class="mb-3">
+                <label for="date" class="form-label">วันที่:</label>
+                <input type="date" class="form-control" id="date" name="date">
+            </div>
+
+            <!-- ชื่อผู้ขาย -->
+            <div class="mb-3">
+                <label for="seller_name" class="form-label">ผู้ขาย:</label>
+                <input type="text" class="form-control" id="seller_name" name="seller_name" placeholder="กรอกชื่อผู้ขาย">
+            </div>
+
+            <!-- ที่อยู่ -->
+            <div class="mb-3">
+                <label for="seller_address" class="form-label">ที่อยู่:</label>
+                <textarea class="form-control" id="seller_address" name="seller_address" rows="3" placeholder="กรอกที่อยู่ผู้ขาย"></textarea>
+            </div>
+
+            <!-- ชื่อลูกค้า -->
+            <div class="mb-3">
+                <label for="customer_name" class="form-label">ชื่อลูกค้า:</label>
+                <input type="text" class="form-control" id="customer_name" name="customer_name" placeholder="กรอกชื่อลูกค้า">
+            </div>
+
+            <!-- รายละเอียดสินค้า -->
+            <h2 class="my-4">รายละเอียดสินค้า</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ลำดับที่</th>
+                            <th>รายการ</th>
+                            <th>จำนวน</th>
+                            <th>หน่วย</th>
+                            <th>ราคา/หน่วย</th>
+                            <th>รวมเงิน</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="number" class="form-control" name="item_number[]" placeholder="1"></td>
+                            <td><input type="text" class="form-control" name="item_description[]" placeholder="รายการ"></td>
+                            <td><input type="number" class="form-control" name="item_quantity[]" placeholder="จำนวน"></td>
+                            <td><input type="text" class="form-control" name="item_unit[]" placeholder="หน่วย"></td>
+                            <td><input type="number" class="form-control" name="item_price[]" placeholder="ราคา/หน่วย"></td>
+                            <td><input type="number" class="form-control" name="item_total[]" placeholder="รวมเงิน"></td>
+                        </tr>
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- รวมเป็นเงิน -->
+            <div class="mb-3">
+                <label for="total_amount" class="form-label">รวมเป็นเงิน:</label>
+                <input type="text" class="form-control" id="total_amount" name="total_amount" placeholder="กรอกยอดรวมเงิน">
+            </div>
+
+            <!-- ลงชื่อผู้รับของ, ลงชื่อผู้ส่งของ -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="receiver_name" class="form-label">ลงชื่อผู้รับของ:</label>
+                    <input type="text" class="form-control" id="receiver_name" name="receiver_name" placeholder="กรอกชื่อผู้รับของ">
+                </div>
+                <div class="col-md-6">
+                    <label for="sender_name" class="form-label">ลงชื่อผู้ส่งของ:</label>
+                    <input type="text" class="form-control" id="sender_name" name="sender_name" placeholder="กรอกชื่อผู้ส่งของ">
+                </div>
+            </div>
+
+            <!-- Button -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-lg">สร้างใบส่งของ</button>
+            </div>
+        </form>
+
+        <?php
+        }
+        ?>
+
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

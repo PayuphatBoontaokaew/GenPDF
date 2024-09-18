@@ -9,57 +9,8 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="text-center mb-4">ใบส่งของ</h1>
-
-        <?php
-        // Check if the form is submitted
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Retrieve form data
-            $bookNumber = $_POST['book_number'];
-            $invoiceNumber = $_POST['invoice_number'];
-            $date = $_POST['date'];
-            $sellerName = $_POST['seller_name'];
-            $sellerAddress = $_POST['seller_address'];
-            $customerName = $_POST['customer_name'];
-            $items = $_POST['item_description'];
-            $quantities = $_POST['item_quantity'];
-            $units = $_POST['item_unit'];
-            $prices = $_POST['item_price'];
-            $totals = $_POST['item_total'];
-            $totalAmount = $_POST['total_amount'];
-            $receiverName = $_POST['receiver_name'];
-            $senderName = $_POST['sender_name'];
-
-            // Display the generated invoice
-            echo "<h1>ใบส่งของ</h1>";
-            echo "<p>เล่มที่: $bookNumber</p>";
-            echo "<p>เลขที่: $invoiceNumber</p>";
-            echo "<p>วันที่: $date</p>";
-            echo "<p>ผู้ขาย: $sellerName</p>";
-            echo "<p>ที่อยู่: $sellerAddress</p>";
-            echo "<p>ชื่อลูกค้า: $customerName</p>";
-
-            echo "<h2>รายละเอียดสินค้า</h2>";
-            echo "<table class='table table-bordered'>";
-            echo "<tr><th>ลำดับที่</th><th>รายการ</th><th>จำนวน</th><th>หน่วย</th><th>ราคา/หน่วย</th><th>รวมเงิน</th></tr>";
-            foreach ($items as $index => $item) {
-                echo "<tr>";
-                echo "<td>" . ($index + 1) . "</td>";
-                echo "<td>$item</td>";
-                echo "<td>{$quantities[$index]}</td>";
-                echo "<td>{$units[$index]}</td>";
-                echo "<td>{$prices[$index]}</td>";
-                echo "<td>{$totals[$index]}</td>";
-                echo "</tr>";
-            }
-            echo "</table>";
-            echo "<p>รวมเป็นเงิน: $totalAmount</p>";
-            echo "<p>ลงชื่อผู้รับของ: $receiverName</p>";
-            echo "<p>ลงชื่อผู้ส่งของ: $senderName</p>";
-        } else {
-        ?>
-
-        <form action="" method="post">
+        <h1 class="text-center mb-4">BenJill</h1>
+        <form action="generate_invoice.php" method="post">
             <div class="row mb-3">
                 <!-- เลขที่, เล่มที่ -->
                 <div class="col-md-6">
@@ -147,11 +98,6 @@
                 <button type="submit" class="btn btn-primary btn-lg">สร้างใบส่งของ</button>
             </div>
         </form>
-
-        <?php
-        }
-        ?>
-
     </div>
 
     <!-- Bootstrap 5 JS -->
